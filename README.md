@@ -1,0 +1,1 @@
+# picture-click-from-svg
