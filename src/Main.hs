@@ -1,10 +1,3 @@
-#!/usr/bin/env cabal
-{- cabal:
-build-depends: base, extra, FontyFruity, JuicyPixels, linear, optparse-generic, pretty-simple, rasterific-svg, svg-tree
-default-extensions: DeriveAnyClass, DeriveGeneric, LambdaCase, OverloadedStrings, RecordWildCards
-ghc-options: -Wall -Wno-incomplete-patterns
--}
-
 {- TODO
 use lenses (since svg-tree is clearly set up that way)
 remove all incomplete pattern matches etc. one way or another
