@@ -10,8 +10,10 @@ executable picture-click-from-svg
         base ^>=4.14.0.0,
         extra,
         FontyFruity,
+        generic-lens,
         JuicyPixels,
         linear,
+        microlens,
         optparse-generic,
         pretty-simple,
         rasterific-svg,
@@ -20,7 +22,10 @@ executable picture-click-from-svg
         DeriveAnyClass
         DeriveGeneric
         LambdaCase
+        NamedFieldPuns
+        OverloadedLabels
         OverloadedStrings
-        RecordWildCards
+        ScopedTypeVariables
+        TupleSections
     ghc-options:
       -Wall
