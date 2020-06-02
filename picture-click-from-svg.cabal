@@ -17,6 +17,8 @@ executable picture-click-from-svg
         optparse-generic,
         pretty-simple,
         rasterific-svg,
+        record-dot-preprocessor,
+        record-hasfield,
         svg-tree,
     default-extensions:
         DeriveAnyClass

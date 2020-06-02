@@ -1,3 +1,7 @@
+--TODO workaround until the day 'RecordDotSyntax' lands
+    -- latter preferred, but not working with HLS
+{-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+-- {-# OPTIONS_GHC -fplugin=RecordDotPreprocessor #-}
 
 {- TODO
 remove all incomplete pattern matches etc. one way or another
@@ -48,10 +52,10 @@ data MetaData = MetaData
 main :: IO ()
 main = do
     (args :: Args) <- getRecord "Sporcle picture click SVG helper"
-    Just doc <- loadSvgFile $ args ^. #inSvg
-    when (args ^. #debug) $ pPrint doc
-    writePng (args ^. #outPng) =<< fst <$> renderSvgDocument emptyFontCache Nothing (args ^. #dpi) doc
-    writeFile (args ^. #outSporcle) $ unlines $ map render $ convertDoc doc
+    Just doc <- loadSvgFile args.inSvg
+    when args.debug $ pPrint doc
+    writePng args.outPng =<< fst <$> renderSvgDocument emptyFontCache Nothing args.dpi doc
+    writeFile args.outSporcle $ unlines $ map render $ convertDoc doc
 
 convertDoc :: Document -> [Entry]
 convertDoc doc = map (uncurry makeEntry . convertElem (V2 x y)) $ doc ^. elements
@@ -61,8 +65,8 @@ convertDoc doc = map (uncurry makeEntry . convertElem (V2 x y)) $ doc ^. element
 makeEntry :: MetaData -> [V2 Double] -> Entry
 makeEntry m vs =
     Entry
-        { answer = fromMaybe "answer" $ m ^. #answer',
-          hint = fromMaybe "hint" $ m ^. #hint',
+        { answer = fromMaybe "answer" m.answer',
+          hint = fromMaybe "hint" m.hint',
           extra = "extra",
           shape = round <<$>> vs,
           answerPos = round <$> mean vs
@@ -100,11 +104,11 @@ render :: Entry -> String
 render e =
     intercalate
         "\t"
-        [ e ^. #hint,
-          e ^. #answer,
-          e ^. #extra,
-          intercalate "; " $ map vec $ e ^. #shape,
-          vec $ e ^. #answerPos
+        [ e.hint,
+          e.answer,
+          e.extra,
+          intercalate "; " $ map vec e.shape,
+          vec e.answerPos
         ]
     where
         vec (V2 x y) = show x <> "," <> show y
