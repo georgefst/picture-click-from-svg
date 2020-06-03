@@ -5,7 +5,6 @@
 -- {-# OPTIONS_GHC -fplugin=RecordDotPreprocessor #-}
 
 {- TODO
-may not work correctly if height attribute not equal to viewbox height (ditto width)
 auto-scale
 dpi setting doesn't seem to make a difference to the output
 what does 'extra' field in sporcle table even do?
