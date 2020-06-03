@@ -39,17 +39,16 @@ data Args = Args
     deriving (Generic, ParseRecord)
 
 data Entry = Entry
-    { hint :: String,
-      answer :: String,
-      extra :: String,
+    { meta :: MetaData,
       shape :: [V2 Int],
       answerPos :: V2 Int
     }
     deriving (Generic)
 
 data MetaData = MetaData
-    { hint' :: Maybe String,
-      answer' :: Maybe String
+    { hint :: String,
+      answer :: String,
+      extra :: String
     }
     deriving (Generic)
 
@@ -89,11 +88,9 @@ convertDoc doc = do
     concat <$> sequence [uncurry makeEntry . trans <<$>> treePaths e | e <- doc._elements]
 
 makeEntry :: MetaData -> [V2 Double] -> Entry
-makeEntry m vs =
+makeEntry meta vs =
     Entry
-        { answer = fromMaybe "answer" m.answer',
-          hint = fromMaybe "hint" m.hint',
-          extra = "extra",
+        { meta,
           shape = round <<$>> vs,
           answerPos = round <$> mean vs
         }
@@ -104,24 +101,33 @@ treePaths = \case
     PathTree p -> case convertPath p._pathDefinition of
         Left s -> warn s p._pathDefinition >> return []
         Right vs -> do
-            x <- maybe (return $ MetaData Nothing Nothing) parseMetaData p._pathDrawAttributes._attrId
+            x <- maybe (return def) parseMetaData p._pathDrawAttributes._attrId
             return [(x, vs)]
     SymbolTree (Symbol g) -> concat <$> mapM treePaths g._groupChildren
     UseTree _ (Just t) -> treePaths t
     _ -> return []
+    where
+        def =
+            MetaData
+                { hint = "hint",
+                  answer = "answer",
+                  extra = "extra"
+                }
 
+--TODO implementation is quite odd - I'm sure it could be simpler
 -- read from a path's id tag
 -- sticking to the sporcle convention, we separate by tab
 parseMetaData :: String -> M MetaData
 parseMetaData s = do
-    (hint', answer') <- case splitOn "\t" s of
-        [] -> return (Nothing, Nothing)
-        x0 : xs -> (Just x0,) <$> case xs of
-            [] -> return Nothing
-            x1 : xs' -> do
-                unless (null xs') $ warn "Failed to fully parse metadata (more than one tab character)" s
-                return $ Just x1
-    return $ MetaData {hint', answer'}
+    (hint, (answer, extra)) <- case uncons' $ splitOn "\t" s of
+        (x0, xs0) -> (fromMaybe "hint" x0,) <$> case uncons' xs0 of
+            (x1, xs1) -> (fromMaybe "answer" x1,) <$> case uncons' xs1 of
+                (x2, xs2) -> do
+                    unless (null xs2) $ warn "Failed to fully parse metadata (more than one tab character)" s
+                    return $ fromMaybe "extra" x2
+    return $ MetaData {hint, answer, extra}
+    where
+        uncons' = maybe (Nothing, []) (first Just) . uncons
 
 -- expects a MoveTo, several LineTo, then an EndPath
 convertPath :: [PathCommand] -> Either String [V2 Double]
@@ -138,9 +144,9 @@ render :: Entry -> String
 render e =
     intercalate
         "\t"
-        [ e.hint,
-          e.answer,
-          e.extra,
+        [ e.meta.hint,
+          e.meta.answer,
+          e.meta.extra,
           intercalate "; " $ map vec e.shape,
           vec e.answerPos
         ]
