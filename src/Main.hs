@@ -17,8 +17,11 @@ empty names, hints, extra seem to mess things up (actually likely a bug in sporc
 
 import Codec.Picture
 import Control.Monad
+import Data.Bool
 import Data.List.Extra
 import Data.Maybe
+import Data.Tuple.Extra
+import Debug.Pretty.Simple (pTraceShow)
 import DotHacks ()
 import Graphics.Rasterific.Svg
 import Graphics.Svg
@@ -60,9 +63,11 @@ main = do
     writeFile args.outSporcle $ unlines $ map render $ convertDoc doc
 
 convertDoc :: Document -> [Entry]
-convertDoc doc = map (uncurry makeEntry . convertElem (V2 x y)) doc._elements
+convertDoc doc = concat [uncurry makeEntry . trans <$> treePaths e | e <- doc._elements]
     where
-        Just (x, y, _, _) = doc._viewBox
+        trans = second $ map $ subtract $ case doc._viewBox of
+            Just (x, y, _, _) -> V2 x y
+            Nothing -> trace "SVG has no viewbox" doc $ V2 1920 1080
 
 makeEntry :: MetaData -> [V2 Double] -> Entry
 makeEntry m vs =
@@ -74,13 +79,16 @@ makeEntry m vs =
           answerPos = round <$> mean vs
         }
 
-convertElem :: V2 Double -> Tree -> (MetaData, [V2 Double])
-convertElem v = \case
-    GroupTree g -> case g._groupChildren of
-        [PathTree p] ->
-            ( maybe (MetaData Nothing Nothing) parseMetaData p._pathDrawAttributes._attrId,
-              map (subtract v) $ convertPath p._pathDefinition
-            )
+treePaths :: Tree -> [(MetaData, [V2 Double])]
+treePaths = \case
+    GroupTree g -> treePaths =<< g._groupChildren
+    PathTree p ->
+        either (\s -> trace s p._pathDefinition []) pure $
+            (maybe (MetaData Nothing Nothing) parseMetaData p._pathDrawAttributes._attrId,)
+                <$> convertPath p._pathDefinition
+    SymbolTree (Symbol g) -> treePaths =<< g._groupChildren
+    UseTree _ (Just t) -> treePaths t
+    _ -> []
 
 -- read from a path's id tag
 -- sticking to the sporcle convention, we separate by tab
@@ -89,18 +97,24 @@ parseMetaData s = MetaData {hint', answer'}
     where
         (hint', answer') =
             case splitOn "\t" s of
-                [x1, x2] -> (Just x1, Just x2)
-                [x] -> (Just x, Just x)
                 [] -> (Nothing, Nothing)
+                [x] -> (Just x, Just x)
+                x1 : x2 : xs ->
+                    applyUnless
+                        (null xs)
+                        (trace "Failed to parse metadata (more than one tab)" s)
+                        (Just x1, Just x2)
 
 -- expects a MoveTo, several LineTo, then an EndPath
-convertPath :: [PathCommand] -> [V2 Double]
+convertPath :: [PathCommand] -> Either String [V2 Double]
 convertPath = \case
-    MoveTo OriginAbsolute [v] : cs -> v : f cs
+    MoveTo OriginAbsolute [v] : cs -> (v :) <$> f cs
+    _ -> Left "Illegal start of path"
     where
         f = \case
-            LineTo OriginAbsolute [v] : cs -> v : f cs
-            [EndPath] -> []
+            LineTo OriginAbsolute [v] : cs -> (v :) <$> f cs
+            [EndPath] -> pure []
+            _ -> Left "Malformed path"
 
 render :: Entry -> String
 render e =
@@ -124,3 +138,13 @@ mean xs = sum xs / fromIntegral (length xs)
 
 (<<$>>) :: (Functor f, Functor g) => (a -> b) -> f (g a) -> f (g b)
 (<<$>>) = fmap . fmap
+
+applyWhen :: Bool -> (a -> a) -> a -> a
+applyWhen = flip $ bool id
+
+applyUnless :: Bool -> (a -> a) -> a -> a
+applyUnless = applyWhen . not
+
+--TODO using a pair is a bit of hack - might be time to make that indentation PR...
+trace :: Show a => String -> a -> b -> b
+trace s x r = pTraceShow (s, x) r

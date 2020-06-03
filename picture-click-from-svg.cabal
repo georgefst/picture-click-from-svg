@@ -38,4 +38,6 @@ executable picture-click-from-svg
         TypeApplications
         TypeFamilies
     ghc-options:
-      -Wall
+        -Wall
+        -Wincomplete-record-updates
+        -Wincomplete-uni-patterns
