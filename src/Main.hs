@@ -1,10 +1,8 @@
-{-# LANGUAGE NoMonomorphismRestriction #-}
 --TODO workaround until the day 'RecordDotSyntax' lands
 -- latter preferred, but not working with HLS
 {-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
 
 -- {-# OPTIONS_GHC -fplugin=RecordDotPreprocessor #-}
--- {-# OPTIONS_GHC -Wno-unused-imports #-}
 
 {- TODO
 remove all incomplete pattern matches etc. one way or another
