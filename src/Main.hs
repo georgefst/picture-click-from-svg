@@ -1,7 +1,10 @@
+{-# LANGUAGE NoMonomorphismRestriction #-}
 --TODO workaround until the day 'RecordDotSyntax' lands
-    -- latter preferred, but not working with HLS
+-- latter preferred, but not working with HLS
 {-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+
 -- {-# OPTIONS_GHC -fplugin=RecordDotPreprocessor #-}
+-- {-# OPTIONS_GHC -Wno-unused-imports #-}
 
 {- TODO
 remove all incomplete pattern matches etc. one way or another
@@ -14,13 +17,12 @@ empty names, hints, extra seem to mess things up (actually likely a bug in sporc
 
 import Codec.Picture
 import Control.Monad
-import Data.Generics.Labels ()
 import Data.List.Extra
 import Data.Maybe
+import DotHacks ()
 import Graphics.Rasterific.Svg
 import Graphics.Svg
 import Graphics.Text.TrueType
-import Lens.Micro
 import Linear.V2
 import Options.Generic
 import Text.Pretty.Simple
@@ -58,9 +60,9 @@ main = do
     writeFile args.outSporcle $ unlines $ map render $ convertDoc doc
 
 convertDoc :: Document -> [Entry]
-convertDoc doc = map (uncurry makeEntry . convertElem (V2 x y)) $ doc ^. elements
+convertDoc doc = map (uncurry makeEntry . convertElem (V2 x y)) doc._elements
     where
-        Just (x, y, _, _) = doc ^. viewBox
+        Just (x, y, _, _) = doc._viewBox
 
 makeEntry :: MetaData -> [V2 Double] -> Entry
 makeEntry m vs =
@@ -74,10 +76,10 @@ makeEntry m vs =
 
 convertElem :: V2 Double -> Tree -> (MetaData, [V2 Double])
 convertElem v = \case
-    GroupTree g -> case g ^. groupChildren of
+    GroupTree g -> case g._groupChildren of
         [PathTree p] ->
-            ( maybe (MetaData Nothing Nothing) parseMetaData $ p ^. pathDrawAttributes . attrId,
-              map (subtract v) $ convertPath $ p ^. pathDefinition
+            ( maybe (MetaData Nothing Nothing) parseMetaData p._pathDrawAttributes._attrId,
+              map (subtract v) $ convertPath p._pathDefinition
             )
 
 -- read from a path's id tag
