@@ -13,18 +13,21 @@ empty names, hints, extra seem to mess things up (actually likely a bug in sporc
 -}
 
 import Codec.Picture
+import Control.Exception
 import Control.Monad
-import Data.Bool
+import Control.Monad.Writer
+import Data.Composition
 import Data.List.Extra
 import Data.Maybe
 import Data.Tuple.Extra
-import Debug.Pretty.Simple (pTraceShow)
 import DotHacks ()
 import Graphics.Rasterific.Svg
 import Graphics.Svg
 import Graphics.Text.TrueType
 import Linear.V2
 import Options.Generic
+import System.Console.ANSI
+import System.Exit
 import Text.Pretty.Simple
 
 data Args = Args
@@ -51,20 +54,36 @@ data MetaData = MetaData
     }
     deriving (Generic)
 
-main :: IO ()
-main = do
-    (args :: Args) <- getRecord "Sporcle picture click SVG helper"
-    Just doc <- loadSvgFile args.inSvg
-    when args.debug $ pPrint doc
-    writePng args.outPng =<< fst <$> renderSvgDocument emptyFontCache Nothing args.dpi doc
-    writeFile args.outSporcle $ unlines $ map render $ convertDoc doc
+--TODO there would be benefits to making this more abstract
+type M a = Writer [Warning] a
 
-convertDoc :: Document -> [Entry]
-convertDoc doc = concat [uncurry makeEntry . trans <$> treePaths e | e <- doc._elements]
-    where
-        trans = second $ map $ subtract $ case doc._viewBox of
-            Just (x, y, _, _) -> V2 x y
-            Nothing -> trace "SVG has no viewbox" doc $ V2 1920 1080
+data Warning where
+    Warning :: Show a => String -> a -> Warning
+
+warn :: Show a => String -> a -> M ()
+warn = tell . pure .: Warning
+
+main :: IO ()
+main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
+    (args :: Args) <- getRecord "Sporcle picture click SVG helper"
+    loadSvgFile args.inSvg >>= \case
+        Nothing -> printError "couldn't parse input file - are you sure it's an SVG?"
+        Just doc -> do
+            when args.debug $ pPrint doc
+            writePng args.outPng =<< fst <$> renderSvgDocument emptyFontCache Nothing args.dpi doc
+            let (entries, warnings) = runWriter $ convertDoc doc
+            forM_ warnings $ \(Warning s x) -> do
+                printWarning s
+                pPrint x --TODO PR for total indentation
+            writeFile args.outSporcle $ unlines $ map render entries
+            putStrCol Green "Success!\n"
+
+convertDoc :: Document -> M [Entry]
+convertDoc doc = do
+    trans <- second . map . subtract <$> case doc._viewBox of
+        Just (x, y, _, _) -> return $ V2 x y
+        Nothing -> warn "SVG has no viewbox" () >> return (V2 1920 1080)
+    concat <$> sequence [uncurry makeEntry . trans <<$>> treePaths e | e <- doc._elements]
 
 makeEntry :: MetaData -> [V2 Double] -> Entry
 makeEntry m vs =
@@ -76,31 +95,30 @@ makeEntry m vs =
           answerPos = round <$> mean vs
         }
 
-treePaths :: Tree -> [(MetaData, [V2 Double])]
+treePaths :: Tree -> M [(MetaData, [V2 Double])]
 treePaths = \case
-    GroupTree g -> treePaths =<< g._groupChildren
-    PathTree p ->
-        either (\s -> trace s p._pathDefinition []) pure $
-            (maybe (MetaData Nothing Nothing) parseMetaData p._pathDrawAttributes._attrId,)
-                <$> convertPath p._pathDefinition
-    SymbolTree (Symbol g) -> treePaths =<< g._groupChildren
+    GroupTree g -> concat <$> mapM treePaths g._groupChildren
+    PathTree p -> case convertPath p._pathDefinition of
+        Left s -> warn s p._pathDefinition >> return []
+        Right vs -> do
+            x <- maybe (return $ MetaData Nothing Nothing) parseMetaData p._pathDrawAttributes._attrId
+            return [(x, vs)]
+    SymbolTree (Symbol g) -> concat <$> mapM treePaths g._groupChildren
     UseTree _ (Just t) -> treePaths t
-    _ -> []
+    _ -> return []
 
 -- read from a path's id tag
 -- sticking to the sporcle convention, we separate by tab
-parseMetaData :: String -> MetaData
-parseMetaData s = MetaData {hint', answer'}
-    where
-        (hint', answer') =
-            case splitOn "\t" s of
-                [] -> (Nothing, Nothing)
-                [x] -> (Just x, Just x)
-                x1 : x2 : xs ->
-                    applyUnless
-                        (null xs)
-                        (trace "Failed to parse metadata (more than one tab)" s)
-                        (Just x1, Just x2)
+parseMetaData :: String -> M MetaData
+parseMetaData s = do
+    (hint', answer') <- case splitOn "\t" s of
+        [] -> return (Nothing, Nothing)
+        x0 : xs -> (Just x0,) <$> case xs of
+            [] -> return Nothing
+            x1 : xs' -> do
+                unless (null xs') $ warn "Failed to fully parse metadata (more than one tab character)" s
+                return $ Just x1
+    return $ MetaData {hint', answer'}
 
 -- expects a MoveTo, several LineTo, then an EndPath
 convertPath :: [PathCommand] -> Either String [V2 Double]
@@ -133,15 +151,16 @@ render e =
 mean :: Fractional a => [a] -> a
 mean xs = sum xs / fromIntegral (length xs)
 
+infixl 4 <<$>>
+
 (<<$>>) :: (Functor f, Functor g) => (a -> b) -> f (g a) -> f (g b)
 (<<$>>) = fmap . fmap
 
-applyWhen :: Bool -> (a -> a) -> a -> a
-applyWhen = flip $ bool id
+putStrCol :: Color -> String -> IO ()
+putStrCol c s = setSGR [SetColor Foreground Dull c, SetConsoleIntensity BoldIntensity] >> putStr s >> setSGR []
 
-applyUnless :: Bool -> (a -> a) -> a -> a
-applyUnless = applyWhen . not
+printWarning :: String -> IO ()
+printWarning s = putStrCol Yellow "Warning: " >> putStrLn s
 
---TODO using a pair is a bit of hack - might be time to make that indentation PR...
-trace :: Show a => String -> a -> b -> b
-trace s x r = pTraceShow (s, x) r
+printError :: String -> IO ()
+printError s = putStrCol Red "Error: " >> putStrLn s
