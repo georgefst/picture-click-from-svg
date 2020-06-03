@@ -36,7 +36,7 @@ main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
         Nothing -> printError "couldn't parse input file - are you sure it's an SVG?"
         Just doc -> do
             when args.debug $ pPrint doc
-            writePng args.outPng =<< fst <$> renderSvgDocument emptyFontCache Nothing args.dpi doc
+            writePng args.outPng =<< fst <$> renderSvgDocument emptyFontCache Nothing (fromMaybe 100 args.dpi) doc
             let (entries, warnings) = runWriter $ allShapes doc
             forM_ warnings $ \(Warning s x) -> do
                 printWarning s
@@ -125,7 +125,7 @@ data Args = Args
     { inSvg :: FilePath,
       outPng :: FilePath,
       outSporcle :: FilePath,
-      dpi :: Int,
+      dpi :: Maybe Int,
       debug :: Bool
     }
     deriving (Generic, ParseRecord)
