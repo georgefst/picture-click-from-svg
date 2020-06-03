@@ -18,12 +18,10 @@ instance {-# OVERLAPPABLE #-} GL.HasField name s s a a => HasField name s a wher
 
 -- we need to derive Generic for every external type with which we wish to use dot syntax
 --TODO is there a plugin, or some Template Haskell, that can automate this?
+{- ORMOLU_DISABLE -}
 deriving instance Generic (Group a)
-
 deriving instance Generic Document
-
 deriving instance Generic DrawAttributes
-
 deriving instance Generic Path
-
 deriving instance Generic Tree
+{- ORMOLU_ENABLE -}
