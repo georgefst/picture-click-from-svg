@@ -81,7 +81,11 @@ main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
 convertDoc :: Document -> M [Entry]
 convertDoc doc = do
     trans <- second . map . subtract <$> case doc._viewBox of
-        Just (x, y, _, _) -> return $ V2 x y
+        Just (x, y, w, h) -> do
+            --TODO we ought to actually be able to adjust to these not being equal
+            when (doc._width /= Just (Num w)) $ warn "width attribute not equal to viewbox width" (w, doc._width)
+            when (doc._height /= Just (Num h)) $ warn "height attribute not equal to viewbox height" (h, doc._height)
+            return $ V2 x y
         Nothing -> warn "SVG has no viewbox" () >> return (V2 1920 1080)
     concat <$> sequence [uncurry makeEntry . trans <<$>> treePaths e | e <- doc._elements]
 
