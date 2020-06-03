@@ -29,38 +29,6 @@ import System.Console.ANSI
 import System.Exit
 import Text.Pretty.Simple
 
-data Args = Args
-    { inSvg :: FilePath,
-      outPng :: FilePath,
-      outSporcle :: FilePath,
-      dpi :: Int,
-      debug :: Bool
-    }
-    deriving (Generic, ParseRecord)
-
-data Entry = Entry
-    { meta :: MetaData,
-      shape :: [V2 Int],
-      answerPos :: V2 Int
-    }
-    deriving (Generic)
-
-data MetaData = MetaData
-    { hint :: String,
-      answer :: String,
-      extra :: String
-    }
-    deriving (Generic)
-
---TODO there would be benefits to making this more abstract
-type M a = Writer [Warning] a
-
-data Warning where
-    Warning :: Show a => String -> a -> Warning
-
-warn :: Show a => String -> a -> M ()
-warn = tell . pure .: Warning
-
 main :: IO ()
 main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
     (args :: Args) <- getRecord "Sporcle picture click SVG helper"
@@ -69,15 +37,15 @@ main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
         Just doc -> do
             when args.debug $ pPrint doc
             writePng args.outPng =<< fst <$> renderSvgDocument emptyFontCache Nothing args.dpi doc
-            let (entries, warnings) = runWriter $ convertDoc doc
+            let (entries, warnings) = runWriter $ allShapes doc
             forM_ warnings $ \(Warning s x) -> do
                 printWarning s
                 pPrint x --TODO PR for total indentation
             writeFile args.outSporcle $ unlines $ map render entries
             putStrCol Green "Success!\n"
 
-convertDoc :: Document -> M [Entry]
-convertDoc doc = do
+allShapes :: Document -> M [Shape]
+allShapes doc = do
     trans <- second . map . subtract <$> case doc._viewBox of
         Just (x, y, w, h) -> do
             --TODO we ought to actually be able to adjust to these not being equal
@@ -85,11 +53,11 @@ convertDoc doc = do
             when (doc._height /= Just (Num h)) $ warn "height attribute not equal to viewbox height" (h, doc._height)
             return $ V2 x y
         Nothing -> warn "SVG has no viewbox" () >> return (V2 1920 1080)
-    concat <$> sequence [uncurry makeEntry . trans <<$>> treePaths e | e <- doc._elements]
+    concat <$> sequence [uncurry makeShape . trans <<$>> treePaths e | e <- doc._elements]
 
-makeEntry :: MetaData -> [V2 Double] -> Entry
-makeEntry meta vs =
-    Entry
+makeShape :: MetaData -> [V2 Double] -> Shape
+makeShape meta vs =
+    Shape
         { meta,
           shape = round <<$>> vs,
           answerPos = round <$> mean vs
@@ -98,7 +66,7 @@ makeEntry meta vs =
 treePaths :: Tree -> M [(MetaData, [V2 Double])]
 treePaths = \case
     GroupTree g -> concat <$> mapM treePaths g._groupChildren
-    PathTree p -> case convertPath p._pathDefinition of
+    PathTree p -> case extractPath p._pathDefinition of
         Left s -> warn s p._pathDefinition >> return []
         Right vs -> do
             x <- maybe (return def) parseMetaData p._pathDrawAttributes._attrId
@@ -115,7 +83,7 @@ treePaths = \case
                 }
 
 --TODO implementation is quite odd - I'm sure it could be simpler
--- read from a path's id tag
+-- read from a path's 'id' tag
 -- sticking to the sporcle convention, we separate by tab
 parseMetaData :: String -> M MetaData
 parseMetaData s = do
@@ -129,9 +97,9 @@ parseMetaData s = do
     where
         uncons' = maybe (Nothing, []) (first Just) . uncons
 
--- expects a MoveTo, several LineTo, then an EndPath
-convertPath :: [PathCommand] -> Either String [V2 Double]
-convertPath = \case
+-- expects a 'MoveTo', several 'LineTo', then an 'EndPath'
+extractPath :: [PathCommand] -> Either String [V2 Double]
+extractPath = \case
     MoveTo OriginAbsolute [v] : cs -> (v :) <$> f cs
     _ -> Left "Illegal start of path"
     where
@@ -140,7 +108,7 @@ convertPath = \case
             [EndPath] -> pure []
             _ -> Left "Malformed path"
 
-render :: Entry -> String
+render :: Shape -> String
 render e =
     intercalate
         "\t"
@@ -152,6 +120,40 @@ render e =
         ]
     where
         vec (V2 x y) = show x <> "," <> show y
+
+data Args = Args
+    { inSvg :: FilePath,
+      outPng :: FilePath,
+      outSporcle :: FilePath,
+      dpi :: Int,
+      debug :: Bool
+    }
+    deriving (Generic, ParseRecord)
+
+data Shape = Shape
+    { meta :: MetaData,
+      shape :: [V2 Int],
+      answerPos :: V2 Int
+    }
+    deriving (Generic)
+
+data MetaData = MetaData
+    { hint :: String,
+      answer :: String,
+      extra :: String
+    }
+    deriving (Generic)
+
+{- Our main monad -}
+--TODO there would be benefits to making this more abstract
+
+type M a = Writer [Warning] a
+
+data Warning where
+    Warning :: Show a => String -> a -> Warning
+
+warn :: Show a => String -> a -> M ()
+warn = tell . pure .: Warning
 
 {- Util -}
 
