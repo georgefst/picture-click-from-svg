@@ -8,7 +8,7 @@ This tool is written in [Haskell](https://www.haskell.org/). To build, you will 
 - `cabal-install` (often just referred to as 'cabal') ≥ 3.0
 - `ghc` ≥ 8.10.1
 
-I usually recommend installing these via [chocolatey](https://www.haskell.org/platform/windows.html) on Windows, and [ghcup](https://www.haskell.org/ghcup) on Linux.
+Download for [Windows](https://www.haskell.org/platform/windows.html) or [Linux](https://www.haskell.org/downloads/linux/).
 
 Build
 ------
