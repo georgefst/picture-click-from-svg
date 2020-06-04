@@ -1,6 +1,6 @@
 # Generate quiz coordinates automatically from an image
 
-Prerequisites:
+Prerequisites
 --------------
 
 This tool is written in [Haskell](https://www.haskell.org/). To build, you will need:
