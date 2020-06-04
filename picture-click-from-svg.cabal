@@ -24,6 +24,8 @@ executable picture-click-from-svg
         record-dot-preprocessor,
         record-hasfield,
         svg-tree,
+    build-tool-depends:
+        record-dot-preprocessor:record-dot-preprocessor
     default-extensions:
         DeriveAnyClass
         DeriveGeneric
