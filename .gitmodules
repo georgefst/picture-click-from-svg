@@ -1,0 +1,3 @@
+[submodule "pretty-simple"]
+	path = pretty-simple
+	url = https://github.com/georgefst/pretty-simple

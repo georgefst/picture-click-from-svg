@@ -40,7 +40,7 @@ main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
             let (entries, warnings) = runWriter $ allShapes doc
             forM_ warnings $ \(Warning s x) -> do
                 printWarning s
-                pPrint x --TODO PR for total indentation
+                pPrintOpt CheckColorTty defaultOutputOptionsDarkBg{outputOptionsInitialIndent = 4} x
             writeFile args.outSporcle $ unlines $ map render entries
             putStrCol Green "Success!\n"
 
