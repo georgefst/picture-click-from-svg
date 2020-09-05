@@ -1,0 +1,123 @@
+<!-- <svg class="leaflet-zoom-animated" style="transform: translate3d(26px, -16px, 0px);" width="1400" height="557" viewBox="26 -16 1400 557"> -->
+<svg class="leaflet-zoom-animated" width="500" height="500" viewBox="450 10 500 500">
+  <g>
+    <path id="All Souls	AS" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M687 381L689 383L689 386L697 391L698 400L683 403L677 382L687 381z"/>
+  </g>
+  <g>
+    <path id="Balliol	Bal" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M623 350L623 348L618 349L618 355L621 361L623 374L641 370L638 360L636 360L631 353L630 349L629 348L624 350z"/>
+  </g>
+  <g>
+    <path id="Brasenose	Bra" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M659 400L659 398L662 397L661 388L668 387L671 391L673 406L660 409L659 400z"/>
+  </g>
+  <g>
+    <path id="Christ Church	CC" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M668 423L670 424L673 433L673 453L675 453L677 450L686 448L687 464L677 463L677 465L660 466L661 467L656 469L645 469L643 460L643 448L640 435L643 433L642 430L650 429L664 423z"/>
+  </g>
+  <g>
+    <path id="Corpus Christi	Cor" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M684 418L687 422L692 421L694 428L688 430L685 422z"/>
+  </g>
+  <g>
+    <path id="Exeter	Ex" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M659 375L661 382L663 382L662 380L666 379L669 386L658 387L649 390L645 375L656 372L657 376z"/>
+  </g>
+  <g>
+    <path id="Green Templeton	GT" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M570 232L572 231L579 248L576 248L564 255L556 254L551 248L551 246L567 234z"/>
+  </g>
+  <g>
+    <path id="Harris Manchester	HM" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M700 339L686 338L691 351L692 358L700 359L700 340z"/>
+  </g>
+  <g>
+    <path id="Hertford	Her" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M685 377L685 370L678 370L679 366L684 366L687 363L685 363L685 359L675 360L675 364L672 364L677 369L678 382L687 380L687 378L685 378z"/>
+  </g>
+  <g>
+    <path id="Jesus	Jes" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M635 397L635 394L634 395L633 392L626 392L624 387L645 381L648 391L641 393L637 396z"/>
+  </g>
+  <g>
+    <path id="Keble	Keble" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M615 287L613 280L634 272L644 302L633 307L627 298L616 288z"/>
+  </g>
+  <g>
+    <path id="Kellogg	Kellogg" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M597 179L598 196L605 198L607 198L608 192L618 191L614 167L608 169L610 177L607 179z"/>
+  </g>
+  <g>
+    <path id="Lady Margaret Hall	LMH" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M656 168L650 155L658 152L661 160L672 154L672 152L675 150L689 144L685 129L688 128L691 131L701 131L708 137L710 145L711 167L696 172L670 189L666 182L666 179L661 179L657 169z"/>
+  </g>
+  <g>
+    <path id="Linacre	Linacre" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M717 278L720 285L734 279L731 275L729 276L728 272L716 276z"/>
+  </g>
+  <g>
+    <path id="Lincoln	Linc" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M658 388L660 388L662 391L662 397L659 398L660 409L654 410L654 403L650 391L655 389z"/>
+  </g>
+  <g>
+    <path id="Magdalen	Magdalen" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M788 364L797 366L798 368L827 372L834 371L834 374L839 376L847 376L852 378L854 377L859 364L858 339L856 336L856 332L843 310L886 310L885 322L888 337L866 336L867 355L887 355L878 395L861 387L857 396L859 397L858 402L849 398L851 395L851 390L846 390L833 386L826 394L807 409L798 419L768 429L766 426L761 423L758 423L751 416L742 411L742 409L741 410L737 408L740 394L741 377L732 363L736 354L764 365L765 363L770 362L772 355L778 354L783 358L786 363z"/>
+  </g>
+  <g>
+    <path id="Mansfield	Mans" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M699 325L696 310L693 304L674 314L678 327L691 326z"/>
+  </g>
+  <g>
+    <path id="Merton	Mer" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M696 429L725 424L727 418L734 420L735 419L741 422L733 437L728 434L726 438L724 437L713 439L687 448L685 432L696 429z"/>
+  </g>
+  <g>
+    <path id="New	New" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M702 426L694 428L692 420L695 419L695 421L700 421L706 419L707 424L703 426z"/>
+  </g>
+  <g>
+    <path id="Nuffield	Nuf" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M583 411L562 399L566 393L576 395L582 399L581 402L586 406z"/>
+  </g>
+  <g>
+    <path id="Oriel	Or" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M675 416L675 422L671 422L668 418L667 410L674 408L676 415L675 408L681 407L683 419L687 430L676 432L676 415z"/>
+  </g>
+  <g>
+    <path id="Pembroke	Pem" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M623 456L623 464L620 464L620 466L618 466L617 463L612 461L612 459L615 458L612 458L613 455L619 456z"/>
+  </g>
+  <g>
+    <path id="Queens	Q" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M698 400L715 402L715 384L704 384L694 382L694 390L697 391L698 398z"/>
+  </g>
+  <g>
+    <path id="St. Anne's	St. Anne's" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M581 245L600 241L596 211L570 220L575 231z"/>
+  </g>
+  <g>
+    <path id="St. Antony's	St. Antony's" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M583 212L570 217L568 216L556 190L562 188L564 191L566 190L565 187L572 184L580 203z"/>
+  </g>
+  <g>
+    <path id="St. Catherines	St. Catz" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M797 366L797 319L784 319L783 293L763 303L776 341L776 354L783 357L785 362L789 365L795 366z"/>
+  </g>
+  <g>
+    <path id="St. Cross	Cross" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M588 331L600 327L600 329L604 328L606 333L591 339L590 337z"/>
+  </g>
+  <g>
+    <path id="St. Edmund-Hall	Ted" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M718 398L717 399L715 383L726 383L725 394L733 396L732 407L721 403L721 399z"/>
+  </g>
+  <g>
+    <path id="St. Hilda's	St. Hilda's" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M776 487L780 495L758 508L755 494L767 481L772 458L777 458L781 460L779 467L779 476L772 480z"/>
+  </g>
+  <g>
+    <path id="St. Hughs	St. Hugh's" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M542 136L544 134L582 123L584 124L591 159L569 165L551 172L545 151z"/>
+  </g>
+  <g>
+    <path id="St. John's	John's" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M625 298L630 308L620 314L612 315L619 315L630 310L632 311L633 315L647 309L657 336L617 348L612 316L606 291L614 289L621 295z"/>
+  </g>
+  <g>
+    <path id="St. Peters	Peter's" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M598 398L592 401L588 397L583 400L582 402L586 405L583 411L587 413L592 410L595 416L598 417L604 414L601 407z"/>
+  </g>
+  <g>
+    <path id="Somerville	Som" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M589 272L590 274L580 277L580 282L588 278L587 277L589 277L590 282L578 289L581 294L577 297L576 295L569 298L571 301L568 304L566 298L563 299L554 286L557 283L560 283L571 273L580 268L580 270L583 270L583 268L588 266L589 270z"/>
+  </g>
+  <g>
+    <path id="Trinity	Tri" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M628 345L657 336L664 352L655 355L657 361L655 362L656 367L641 370L638 360L636 360L629 348L624 350L617 348L628 345z"/>
+  </g>
+  <g>
+    <path id="University	Univ" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M712 424L707 425L707 418L700 421L695 421L695 419L687 422L686 419L690 419L689 412L686 406L694 404L704 404L717 407L715 415L713 417L715 419L725 421L724 423L716 424z"/>
+  </g>
+  <g>
+    <path id="Wadham	Wad" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M682 358L670 359L661 339L655 321L673 315L682 339L686 338L692 355L692 358L686 358L686 356L682 356L682 358z"/>
+  </g>
+  <g>
+    <path id="Wolfson	Wolfson" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M646 51L652 48L652 39L658 38L658 16L675 16L674 36L689 35L692 51L703 49L711 37L716 40L714 61L715 67L712 68L718 85L689 95L686 93L682 75L667 81L670 89L666 90L661 78L651 82L650 78L660 74L658 71L648 74L644 63L649 60L649 58L644 60L645 59L641 51L637 53L640 62L630 67L625 52L644 46z"/>
+  </g>
+  <g>
+    <path id="Worcester	Worcester	lol" stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#F03800" stroke-opacity="1" stroke-width="2" fill="#3277AE" fill-opacity="0.5" class="leaflet-clickable" d="M567 356L568 365L563 383L550 386L548 380L525 364L500 340L492 331L488 323L499 318L501 321L499 322L501 322L502 324L501 325L542 328L544 337L551 336L553 338L553 341L566 339L567 352z"/>
+  </g>
+</svg>
+
+<!-- https://maps.ox.ac.uk/embed.html -->
+<!-- TODO Parks College est. 2019 -->
+<!-- TODO reshape - maybe sporcle actually allows portrait (https://css-tricks.com/scale-svg/) -->
+<!-- TODO colours (probably outline only as sporcle does its own hihglighting after answering) -->
+<!-- TODO no need for answer when identical to hint -->
