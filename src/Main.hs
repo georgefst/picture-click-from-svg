@@ -25,7 +25,7 @@ import Graphics.Svg
 import Graphics.Text.TrueType
 import Linear.V2
 import Options.Generic
-import System.Console.ANSI
+import System.Console.ANSI qualified as ANSI
 import System.Exit
 import Text.Pretty.Simple
 
@@ -42,7 +42,7 @@ main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
                 printWarning s
                 pPrintOpt CheckColorTty defaultOutputOptionsDarkBg{outputOptionsInitialIndent = 4} x
             writeFile args.outSporcle $ unlines $ map render entries
-            putStrCol Green "Success!\n"
+            putStrCol ANSI.Green "Success!\n"
 
 allShapes :: Document -> M [Shape]
 allShapes doc = do
@@ -167,11 +167,14 @@ infixl 4 <<$>>
 (<<$>>) :: (Functor f, Functor g) => (a -> b) -> f (g a) -> f (g b)
 (<<$>>) = fmap . fmap
 
-putStrCol :: Color -> String -> IO ()
-putStrCol c s = setSGR [SetColor Foreground Dull c, SetConsoleIntensity BoldIntensity] >> putStr s >> setSGR []
+putStrCol :: ANSI.Color -> String -> IO ()
+putStrCol c s = do
+    ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Dull c, ANSI.SetConsoleIntensity ANSI.BoldIntensity]
+    putStr s
+    ANSI.setSGR []
 
 printWarning :: String -> IO ()
-printWarning s = putStrCol Yellow "Warning: " >> putStrLn s
+printWarning s = putStrCol ANSI.Yellow "Warning: " >> putStrLn s
 
 printError :: String -> IO ()
-printError s = putStrCol Red "Error: " >> putStrLn s
+printError s = putStrCol ANSI.Red "Error: " >> putStrLn s
