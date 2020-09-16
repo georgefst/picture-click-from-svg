@@ -1,6 +1,7 @@
 --TODO workaround until the day 'RecordDotSyntax' lands
 -- latter preferred, but not working with HLS
 {-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
 -- {-# OPTIONS_GHC -fplugin=RecordDotPreprocessor #-}
 
@@ -29,14 +30,18 @@ import System.Console.ANSI qualified as ANSI
 import System.Exit
 import Text.Pretty.Simple
 
+-- {-# HLINT ignore "Redundant bracket" #-}
+{-# ANN module ("HLint: ignore Redundant bracket" :: String) #-}
+{-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
+
 main :: IO ()
 main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
     (args :: Args) <- getRecord "Sporcle picture click SVG helper"
     loadSvgFile args.inSvg >>= \case
         Nothing -> printError "couldn't parse input file - are you sure it's an SVG?"
         Just doc -> do
-            when args.debug $ pPrint doc
-            writePng args.outPng =<< fst <$> renderSvgDocument emptyFontCache Nothing (fromMaybe 100 args.dpi) doc
+            ((when)) args.debug $ pPrint doc
+            writePng args.outPng . fst =<< renderSvgDocument emptyFontCache Nothing (fromMaybe 100 args.dpi) doc
             let (entries, warnings) = runWriter $ allShapes doc
             forM_ warnings $ \(Warning s x) -> do
                 printWarning s
