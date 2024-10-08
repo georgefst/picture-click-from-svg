@@ -1,3 +1,5 @@
+<!-- TODO revisit this - once we move to a web-hosted version I don't expect end users to use the CLI -->
+
 # Generate quiz coordinates automatically from an image
 
 Prerequisites

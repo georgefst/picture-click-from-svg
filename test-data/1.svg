@@ -1,3 +1,4 @@
+<!-- TODO this example is somewhat broken - examine the generated quiz fully before publishing -->
 <!-- <svg class="leaflet-zoom-animated" style="transform: translate3d(26px, -16px, 0px);" width="1400" height="557" viewBox="26 -16 1400 557"> -->
 <svg class="leaflet-zoom-animated" width="500" height="500" viewBox="450 10 500 500">
   <g>
