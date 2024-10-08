@@ -2,11 +2,7 @@ cabal-version:       3.0
 name:                picture-click-from-svg
 version:             0.1.0.0
 
-executable picture-click-from-svg
-    main-is: Main.hs
-    other-modules:
-        Lib
-    hs-source-dirs: src
+common common
     default-language: GHC2024
     build-depends:
         base,
@@ -28,3 +24,16 @@ executable picture-click-from-svg
         OverloadedStrings
     ghc-options:
         -Wall
+
+library
+    import: common
+    hs-source-dirs: src
+    exposed-modules:
+        Lib
+
+executable picture-click-from-svg
+    import: common
+    main-is: Main.hs
+    hs-source-dirs: exe
+    build-depends:
+        picture-click-from-svg,
