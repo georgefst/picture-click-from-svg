@@ -3,11 +3,8 @@ module Main (main) where
 import Codec.Picture
 import Control.Exception
 import Control.Monad
-import Control.Monad.Writer
 import Data.Maybe
-import Graphics.Rasterific.Svg
 import Graphics.Svg
-import Graphics.Text.TrueType
 import Lib
 import Options.Generic
 import System.Console.ANSI qualified as ANSI
@@ -21,12 +18,12 @@ main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
         Nothing -> printError "couldn't parse input file - are you sure it's an SVG?"
         Just doc -> do
             when args.debug $ pPrint doc
-            writePng args.outPng . fst =<< renderSvgDocument emptyFontCache Nothing (fromMaybe 100 args.dpi) doc
-            let (entries, warnings) = runWriter $ allShapes doc
+            writePng args.outPng . fst =<< makePng (fromMaybe 100 args.dpi) doc
+            let (sporcle, warnings) = generateSporcle doc
             forM_ warnings $ \(Warning s x) -> do
                 printWarning s
                 pPrintOpt CheckColorTty defaultOutputOptionsDarkBg{outputOptionsInitialIndent = 4} x
-            writeFile args.outSporcle $ unlines $ map render entries
+            writeFile args.outSporcle sporcle
             putStrCol ANSI.Green "Success!\n"
 
 data Args = Args

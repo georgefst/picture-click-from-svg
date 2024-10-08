@@ -1,6 +1,6 @@
 module Lib (
-    allShapes,
-    render,
+    makePng,
+    generateSporcle,
     Warning (..),
 )
 where
@@ -12,6 +12,7 @@ what does 'extra' field in sporcle table even do?
 empty names, hints, extra seem to mess things up (actually likely a bug in sporcle's parser)
 -}
 
+import Codec.Picture
 import Control.Monad
 import Control.Monad.Writer
 import Data.Composition
@@ -19,8 +20,16 @@ import Data.List.Extra
 import Data.Maybe
 import Data.Tuple.Extra
 import GHC.Generics (Generic)
-import Graphics.Svg
+import Graphics.Rasterific.Svg
+import Graphics.Svg hiding (Dpi, Image)
+import Graphics.Text.TrueType
 import Linear.V2
+
+makePng :: Dpi -> Document -> IO (Image PixelRGBA8, LoadedElements)
+makePng = renderSvgDocument emptyFontCache Nothing
+
+generateSporcle :: Document -> (String, [Warning])
+generateSporcle = first (unlines . map render) . runWriter . allShapes
 
 allShapes :: Document -> M [Shape]
 allShapes doc = do
