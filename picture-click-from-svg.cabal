@@ -29,5 +29,3 @@ executable picture-click-from-svg
         OverloadedStrings
     ghc-options:
         -Wall
-        -Wincomplete-record-updates
-        -Wincomplete-uni-patterns
