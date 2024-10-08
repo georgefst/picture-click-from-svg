@@ -16,6 +16,7 @@ import Codec.Picture
 import Control.Monad
 import Control.Monad.Writer
 import Data.Composition
+import Data.Function
 import Data.List.Extra
 import Data.Maybe
 import Data.Tuple.Extra
@@ -70,22 +71,25 @@ treePaths = \case
             , extra = "extra"
             }
 
--- TODO implementation is quite odd - I'm sure it could be simpler
 -- read from a path's 'id' tag
 -- sticking to the sporcle convention, we separate by tab
 parseMetaData :: String -> M MetaData
-parseMetaData s = do
-    (hint, (answer, extra)) <- case uncons' $ splitOn "\t" s of
-        (x0, xs0) ->
-            (fromMaybe "hint" x0,) <$> case uncons' xs0 of
-                (x1, xs1) ->
-                    (fromMaybe "answer" x1,) <$> case uncons' xs1 of
-                        (x2, xs2) -> do
-                            unless (null xs2) $ warn "Failed to fully parse metadata (more than one tab character)" s
-                            return $ fromMaybe "extra" x2
-    return $ MetaData{hint, answer, extra}
+parseMetaData s =
+    splitOn "\t" s
+        & ( munch (flip id . fromMaybe "hint")
+                . munch (flip id . fromMaybe "answer")
+                $ munch (flip \() c b a -> MetaData a b $ fromMaybe "extra" c) \remainder ->
+                    unless (null remainder) $ warn "Failed to fully parse metadata (more than one tab character)" s
+          )
   where
-    uncons' = maybe (Nothing, []) (first Just) . uncons
+    -- TODO this implementation is a little strange
+    -- it feels like we're half way to accidentally building some nice parser abstraction
+    -- where parsers take subparsers as input, rather than returning the unused input portion
+    -- but it's unclear how to make it any more elegant than this
+    -- or whether `Parser f s a = [s] -> f a` can be given a nice `Applicative` instance
+    munch f r = \case
+        [] -> f Nothing <$> r [] -- if we have an empty list, run r on it
+        y : ys -> f (Just y) <$> r ys -- if we have a non-empty list, use y for the current parser and run r on remainder
 
 -- expects a 'MoveTo', several 'LineTo', then an 'EndPath'
 extractPath :: [PathCommand] -> Either String [V2 Double]
