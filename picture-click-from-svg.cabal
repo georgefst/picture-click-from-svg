@@ -21,12 +21,9 @@ executable picture-click-from-svg
         optparse-generic ^>= 1.4.3,
         pretty-simple ^>= 4.0.0,
         rasterific-svg ^>= 0.3.3,
-        record-dot-preprocessor ^>= 0.2.6,
         record-hasfield ^>= 1.0,
         svg-tree ^>= 0.6.2,
         text ^>= 1.2.3,
-    build-tool-depends:
-        record-dot-preprocessor:record-dot-preprocessor
     default-extensions:
         DeriveAnyClass
         DeriveGeneric
@@ -37,6 +34,7 @@ executable picture-click-from-svg
         MultiParamTypeClasses
         NamedFieldPuns
         OverloadedLabels
+        OverloadedRecordDot
         OverloadedStrings
         RankNTypes
         ScopedTypeVariables

@@ -1,9 +1,3 @@
---TODO workaround until the day 'RecordDotSyntax' lands
--- latter preferred, but not working with HLS
-{-# OPTIONS_GHC -F -pgmF=record-dot-preprocessor #-}
-
--- {-# OPTIONS_GHC -fplugin=RecordDotPreprocessor #-}
-
 {- TODO
 auto-scale
 dpi setting doesn't seem to make a difference to the output
