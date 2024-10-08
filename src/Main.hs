@@ -13,7 +13,6 @@ import Data.Composition
 import Data.List.Extra
 import Data.Maybe
 import Data.Tuple.Extra
-import DotHacks ()
 import Graphics.Rasterific.Svg
 import Graphics.Svg
 import Graphics.Text.TrueType
