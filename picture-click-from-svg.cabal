@@ -6,14 +6,12 @@ common common
     default-language: GHC2024
     build-depends:
         base,
-        ansi-terminal,
         composition,
         extra,
         FontyFruity,
         JuicyPixels,
         linear,
         mtl,
-        optparse-generic,
         pretty-simple,
         rasterific-svg,
         svg-tree,
@@ -28,6 +26,7 @@ common common
 library
     import: common
     hs-source-dirs: src
+    build-depends:
     exposed-modules:
         Lib
 
@@ -37,3 +36,5 @@ executable picture-click-from-svg
     hs-source-dirs: exe
     build-depends:
         picture-click-from-svg,
+        ansi-terminal,
+        optparse-generic,

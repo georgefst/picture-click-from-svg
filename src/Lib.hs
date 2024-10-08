@@ -18,9 +18,9 @@ import Data.Composition
 import Data.List.Extra
 import Data.Maybe
 import Data.Tuple.Extra
+import GHC.Generics (Generic)
 import Graphics.Svg
 import Linear.V2
-import Options.Generic
 
 allShapes :: Document -> M [Shape]
 allShapes doc = do
