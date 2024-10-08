@@ -4,6 +4,8 @@ version:             0.1.0.0
 
 executable picture-click-from-svg
     main-is: Main.hs
+    other-modules:
+        Lib
     hs-source-dirs: src
     default-language: GHC2024
     build-depends:
