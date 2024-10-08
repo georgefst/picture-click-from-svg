@@ -7,7 +7,9 @@ common common
     build-depends:
         base,
         composition,
+        directory,
         extra,
+        filepath,
         FontyFruity,
         JuicyPixels,
         linear,
@@ -38,3 +40,13 @@ executable picture-click-from-svg
         picture-click-from-svg,
         ansi-terminal,
         optparse-generic,
+
+test-suite test
+    import: common
+    type: exitcode-stdio-1.0
+    main-is: Test.hs
+    hs-source-dirs: test
+    build-depends:
+        picture-click-from-svg,
+        tasty,
+        tasty-golden,
