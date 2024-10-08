@@ -128,7 +128,7 @@ data MetaData = MetaData
 {- Our main monad -}
 -- TODO there would be benefits to making this more abstract
 
-type M a = Writer [Warning] a
+type M = Writer [Warning]
 
 data Warning where
     Warning :: (Show a) => String -> a -> Warning
