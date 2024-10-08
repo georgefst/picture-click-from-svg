@@ -23,6 +23,7 @@ common common
         DeriveAnyClass
         OverloadedRecordDot
         OverloadedStrings
+        PartialTypeSignatures
     ghc-options:
         -Wall
 
