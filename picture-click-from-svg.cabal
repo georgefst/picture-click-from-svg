@@ -19,6 +19,7 @@ common common
         svg-tree,
         text,
     default-extensions:
+        BlockArguments
         DeriveAnyClass
         OverloadedRecordDot
         OverloadedStrings

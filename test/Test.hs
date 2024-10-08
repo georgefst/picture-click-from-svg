@@ -22,7 +22,7 @@ main = do
             withResource
                 (fromMaybe (error "failed to load SVG") <$> loadSvgFile (exampleDir </> name <.> "svg"))
                 mempty
-                $ \doc ->
+                \doc ->
                     testGroup
                         name
                         [ goldenVsString "sporcle" (outputDir </> name <.> "sporcle") $

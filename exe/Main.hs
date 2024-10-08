@@ -12,7 +12,7 @@ import System.Exit
 import Text.Pretty.Simple
 
 main :: IO ()
-main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) $ do
+main = handle (\(e :: IOError) -> printError (show e) >> exitFailure) do
     (args :: Args) <- getRecord "Sporcle picture click SVG helper"
     loadSvgFile args.inSvg >>= \case
         Nothing -> printError "couldn't parse input file - are you sure it's an SVG?"
