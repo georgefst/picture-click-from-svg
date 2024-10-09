@@ -28,7 +28,7 @@ main = do
                         [ goldenVsString "sporcle" (outputDir </> name <.> "sporcle") $
                             TL.encodeUtf8 . TL.pack . fst . generateSporcle <$> doc
                         , goldenVsString "png" (outputDir </> name <.> "png") $
-                            pure . encodePng . fst =<< makePng dpi =<< doc
+                            encodePng . fst <$> (makePng dpi =<< doc)
                         ]
 
 dpi :: Dpi
